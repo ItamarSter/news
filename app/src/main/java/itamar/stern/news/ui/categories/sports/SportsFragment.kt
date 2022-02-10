@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 
 import itamar.stern.news.adapters.NewsAdapter
 import itamar.stern.news.databinding.SportsFragmentBinding
+import itamar.stern.news.utils.dp
 import itamar.stern.news.view_model.ViewModel
 
 class SportsFragment : Fragment() {
@@ -49,7 +50,7 @@ class SportsFragment : Fragment() {
             binding.progressBarSports.visibility = View.GONE
             //Scroll to position where we were before the downloading:
             val offset = binding.recyclerViewSports.height
-            (binding.recyclerViewSports.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(position-100, offset)
+            (binding.recyclerViewSports.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(position-100, (offset+48.dp()).toInt())
         }
     }
 

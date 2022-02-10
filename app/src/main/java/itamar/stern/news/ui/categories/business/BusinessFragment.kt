@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import itamar.stern.news.adapters.NewsAdapter
 import itamar.stern.news.databinding.BusinessFragmentBinding
+import itamar.stern.news.utils.dp
 import itamar.stern.news.view_model.ViewModel
 
 class BusinessFragment : Fragment() {
@@ -47,7 +48,7 @@ class BusinessFragment : Fragment() {
             binding.progressBar.visibility = View.GONE
             //Scroll to position where we were before the downloading:
             val offset = binding.recyclerView.height
-            (binding.recyclerView.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(position-100, offset)
+            (binding.recyclerView.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(position-100, (offset+48.dp()).toInt())
         }
 
     }

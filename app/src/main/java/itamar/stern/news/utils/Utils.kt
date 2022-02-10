@@ -3,9 +3,13 @@ package itamar.stern.news.utils
 import android.content.res.Resources
 import android.os.Build
 import android.util.TypedValue
+import androidx.annotation.RequiresApi
 import itamar.stern.news.NewsApplication
 import itamar.stern.news.models.MyError
 import java.time.LocalDateTime
+import java.time.OffsetDateTime
+import java.time.ZoneId
+import java.time.ZonedDateTime
 
 fun Number.dp(): Float {
     return TypedValue.applyDimension(
@@ -15,21 +19,25 @@ fun Number.dp(): Float {
     )
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 fun createDateString(dateString: String): String {
-    val year = dateString.substring(2, 4)
-    var month = dateString.substring(5, 7)
+    //DateString given format: 2022-02-10T17:02:59+00:00
+    var localDate = OffsetDateTime.parse(dateString).atZoneSameInstant(ZoneId.of("GMT+2"))
+    val year = localDate.year.toString()
+    var month = localDate.monthValue.toString()
     if (month[0] == '0') {
         month = month[1].toString()
     }
-    var day = dateString.substring(8, 10)
+    var day = localDate.dayOfMonth.toString()
     if (day[0] == '0') {
         day = day[1].toString()
     }
-    var hour = dateString.substring(11, 13)
-    if (hour[0] == '0') {
+    var hour = localDate.hour.toString()
+    if (hour[0] == '0' && hour.length == 2) {
         hour = hour[1].toString()
     }
-    val minutes = dateString.substring(14, 16)
+    var minutes = localDate.minute.toString()
+    if(minutes.length == 1) minutes = "0$minutes"
     return "$hour:$minutes  $day/$month/$year"
 }
 

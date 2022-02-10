@@ -49,8 +49,7 @@ class GeneralFragment : Fragment() {
             //Scroll to position where we were before the downloading:
             val offset = binding.recyclerViewGeneral.height
             //48.dp = size of progressBar
-            (binding.recyclerViewGeneral.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(position-100, (offset+48.dp()).toInt()
-            )
+            (binding.recyclerViewGeneral.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(position-100, (offset+48.dp()).toInt())
         }
     }
 

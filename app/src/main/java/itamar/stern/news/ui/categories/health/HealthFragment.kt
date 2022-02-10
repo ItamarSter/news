@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import itamar.stern.news.adapters.NewsAdapter
 import itamar.stern.news.databinding.HealthFragmentBinding
+import itamar.stern.news.utils.dp
 import itamar.stern.news.view_model.ViewModel
 
 class HealthFragment : Fragment() {
@@ -49,7 +50,7 @@ class HealthFragment : Fragment() {
             binding.progressBarHealth.visibility = View.GONE
             //Scroll to position where we were before the downloading:
             val offset = binding.recyclerViewHealth.height
-            (binding.recyclerViewHealth.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(position-100, offset)
+            (binding.recyclerViewHealth.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(position-100, (offset+48.dp()).toInt())
         }
     }
 
