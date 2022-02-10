@@ -10,4 +10,12 @@
     <color name="white">#FFFFFFFF</color>
     <color name="gray">#dedede</color>
     <color name="darkgray">#666666</color>
+    <color name="tab_general">#fA9499</color>
+    <color name="tab_business">#f8e1e1</color>
+    <color name="tab_entertainment">#90e8d0</color>
+    <color name="tab_health">#aBfFf5</color>
+    <color name="tab_science">#a58DeF</color>
+    <color name="tab_sports">#fA9797</color>
+    <color name="tab_technology">#fFd49A</color>
+    <color name="tab_favorites">#8Ef6aD</color>
 </resources>

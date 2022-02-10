@@ -15,6 +15,7 @@
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabs"
             android:background="@color/gray"
+            app:tabMinWidth="120dp"
             app:tabTextColor="@color/black"
             app:tabMode="scrollable"
             android:layout_width="match_parent"
