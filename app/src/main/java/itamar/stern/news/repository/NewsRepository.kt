@@ -50,20 +50,25 @@ class NewsRepository(
     }
 
     suspend fun fetchNewsForWelcome(callbackDone:()->Unit) {
-        var news = newsApi.fetchMovies(category = Category.GENERAL.first, limit = "1")
-        welcomeNewsList.value?.addAll(news.data)
-        news = newsApi.fetchMovies(category = Category.BUSINESS.first, limit = "1")
-        welcomeNewsList.value?.addAll(news.data)
-        news = newsApi.fetchMovies(category = Category.ENTERTAINMENT.first, limit = "1")
-        welcomeNewsList.value?.addAll(news.data)
-        news = newsApi.fetchMovies(category = Category.HEALTH.first, limit = "1")
-        welcomeNewsList.value?.addAll(news.data)
-        news = newsApi.fetchMovies(category = Category.SCIENCE.first, limit = "1")
-        welcomeNewsList.value?.addAll(news.data)
-        news = newsApi.fetchMovies(category = Category.SPORTS.first, limit = "1")
-        welcomeNewsList.value?.addAll(news.data)
-        news = newsApi.fetchMovies(category = Category.TECHNOLOGY.first, limit = "1")
-        welcomeNewsList.value?.addAll(news.data)
+        try {
+            var news = newsApi.fetchMovies(category = Category.GENERAL.first, limit = "1")
+            welcomeNewsList.value?.addAll(news.data)
+            news = newsApi.fetchMovies(category = Category.BUSINESS.first, limit = "1")
+            welcomeNewsList.value?.addAll(news.data)
+            news = newsApi.fetchMovies(category = Category.ENTERTAINMENT.first, limit = "1")
+            welcomeNewsList.value?.addAll(news.data)
+            news = newsApi.fetchMovies(category = Category.HEALTH.first, limit = "1")
+            welcomeNewsList.value?.addAll(news.data)
+            news = newsApi.fetchMovies(category = Category.SCIENCE.first, limit = "1")
+            welcomeNewsList.value?.addAll(news.data)
+            news = newsApi.fetchMovies(category = Category.SPORTS.first, limit = "1")
+            welcomeNewsList.value?.addAll(news.data)
+            news = newsApi.fetchMovies(category = Category.TECHNOLOGY.first, limit = "1")
+            welcomeNewsList.value?.addAll(news.data)
+        } catch (e: Exception){
+            //todo: save the exception
+        }
+
         callbackDone()
     }
 

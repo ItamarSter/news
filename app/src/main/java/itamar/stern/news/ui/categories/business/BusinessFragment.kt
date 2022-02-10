@@ -6,12 +6,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import itamar.stern.news.adapters.NewsAdapter
 import itamar.stern.news.databinding.BusinessFragmentBinding
-import itamar.stern.news.ui.view_model.ViewModel
+import itamar.stern.news.view_model.ViewModel
 
 class BusinessFragment : Fragment() {
     private lateinit var binding: BusinessFragmentBinding

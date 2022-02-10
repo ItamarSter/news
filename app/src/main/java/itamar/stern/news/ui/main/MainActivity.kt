@@ -9,7 +9,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayoutMediator
 import itamar.stern.news.R
 import itamar.stern.news.databinding.ActivityMainBinding
-import itamar.stern.news.ui.NewsApplication
+import itamar.stern.news.NewsApplication
 
 class MainActivity : AppCompatActivity() {
 

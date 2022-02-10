@@ -21,6 +21,7 @@
         android:id="@+id/textViewSignIn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textStyle="bold"
         android:text="@string/you_have_to_sign_in_for_see_your_favorites"
         android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@+id/buttonSignIn"
@@ -43,4 +44,17 @@
         app:strokeColor="#999999"
         app:strokeWidth="3dp"
         tools:visibility="visible" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabSignOut"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:visibility="invisible"
+        android:backgroundTint="@color/white"
+        android:layout_marginEnd="12dp"
+        android:clickable="true"
+        android:src="@drawable/sign_out_icon"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

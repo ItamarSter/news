@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import itamar.stern.news.adapters.NewsAdapter
 import itamar.stern.news.databinding.HealthFragmentBinding
-import itamar.stern.news.ui.view_model.ViewModel
+import itamar.stern.news.view_model.ViewModel
 
 class HealthFragment : Fragment() {
 

@@ -1,4 +1,4 @@
-package itamar.stern.news.ui
+package itamar.stern.news
 
 import android.app.Application
 import android.content.Context

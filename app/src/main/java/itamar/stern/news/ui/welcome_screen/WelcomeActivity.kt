@@ -7,11 +7,10 @@ import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import itamar.stern.news.R
-import itamar.stern.news.adapters.NewsAdapter
 import itamar.stern.news.adapters.WelcomeAdapter
 import itamar.stern.news.databinding.ActivityWelcomeBinding
 import itamar.stern.news.models.Category
-import itamar.stern.news.ui.NewsApplication
+import itamar.stern.news.NewsApplication
 import itamar.stern.news.ui.main.MainActivity
 
 class WelcomeActivity : AppCompatActivity() {
@@ -35,7 +34,6 @@ class WelcomeActivity : AppCompatActivity() {
             NewsApplication.whereToGoFromWelcome = Category.FAVORITES.second
             binding.imageViewFavoritsIcon.setImageResource(R.drawable.favoritesiconclicked)
             startActivity(Intent(this, MainActivity::class.java))
-            finish()
         }
         binding.recyclerViewWelcome.layoutManager = LinearLayoutManager(this)
         viewModel.welcomeNews.observe(this){
@@ -43,7 +41,6 @@ class WelcomeActivity : AppCompatActivity() {
                 //onClick on news:
                 NewsApplication.whereToGoFromWelcome = Category.CATEGORIES[category]!!
                 startActivity(Intent(this, MainActivity::class.java))
-                finish()
             }
         }
     }

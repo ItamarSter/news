@@ -10,19 +10,23 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import itamar.stern.news.adapters.NewsAdapter
 import itamar.stern.news.databinding.FavoritesFragmentBinding
-import itamar.stern.news.ui.view_model.ViewModel
+import itamar.stern.news.view_model.ViewModel
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
-import android.app.Activity
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.tasks.Task
 import itamar.stern.news.R
 
 
 class FavoritesFragment : Fragment() {
 
+    companion object {
+        val userName = MutableLiveData("no one")
+    }
     private lateinit var binding: FavoritesFragmentBinding
     private lateinit var viewModel: ViewModel
     private lateinit var mGoogleSignInClient: GoogleSignInClient
@@ -45,16 +49,22 @@ class FavoritesFragment : Fragment() {
 
         val account = GoogleSignIn.getLastSignedInAccount(requireContext())
         if (account == null) {
-            binding.buttonSignIn.visibility = View.VISIBLE
-            binding.textViewSignIn.visibility = View.VISIBLE
-
-            binding.buttonSignIn.setOnClickListener {
-                exampleActivityResult.launch(mGoogleSignInClient.signInIntent)
-            }
+            showLoginViews()
         } else {
-            binding.recyclerViewFavorites.visibility = View.VISIBLE
+            userName.postValue(account.displayName)
+            showFavoritesViews()
         }
 
+        binding.buttonSignIn.setOnClickListener {
+            signInResult.launch(mGoogleSignInClient.signInIntent)
+        }
+        binding.fabSignOut.setOnClickListener {
+            mGoogleSignInClient.signOut()
+            showLoginViews()
+            hideFavoritesViews()
+        }
+
+        //show the favorites:
         binding.recyclerViewFavorites.layoutManager = LinearLayoutManager(requireContext())
         viewModel.favorites.observe(viewLifecycleOwner) {
             binding.recyclerViewFavorites.adapter = NewsAdapter(it) { news ->
@@ -68,16 +78,38 @@ class FavoritesFragment : Fragment() {
         }
     }
 
-    private val exampleActivityResult = registerForActivityResult(
+    private val signInResult = registerForActivityResult(
         StartActivityForResult()
     ) { result ->
-        val task: Task<GoogleSignInAccount> =
-            GoogleSignIn.getSignedInAccountFromIntent(result.data)
-        task.addOnSuccessListener {
-            Toast.makeText(requireContext(), "${requireContext().resources.getString(R.string.welcome)} ${it.displayName}", Toast.LENGTH_SHORT).show()
-            binding.buttonSignIn.visibility = View.INVISIBLE
-            binding.textViewSignIn.visibility = View.INVISIBLE
-            binding.recyclerViewFavorites.visibility = View.VISIBLE
-        }
+        GoogleSignIn.getSignedInAccountFromIntent(result.data)
+            .addOnSuccessListener {
+                Toast.makeText(
+                    requireContext(),
+                    "${requireContext().resources.getString(R.string.welcome)} ${it.displayName}",
+                    Toast.LENGTH_SHORT
+                ).show()
+                hideLoginViews()
+                showFavoritesViews()
+            }
+    }
+
+    private fun showFavoritesViews() {
+        binding.recyclerViewFavorites.visibility = View.VISIBLE
+        binding.fabSignOut.visibility = View.VISIBLE
+    }
+
+    private fun hideFavoritesViews() {
+        binding.recyclerViewFavorites.visibility = View.INVISIBLE
+        binding.fabSignOut.visibility = View.INVISIBLE
+    }
+
+    private fun showLoginViews() {
+        binding.buttonSignIn.visibility = View.VISIBLE
+        binding.textViewSignIn.visibility = View.VISIBLE
+    }
+
+    private fun hideLoginViews() {
+        binding.buttonSignIn.visibility = View.INVISIBLE
+        binding.textViewSignIn.visibility = View.INVISIBLE
     }
 }

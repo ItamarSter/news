@@ -14,7 +14,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
 import itamar.stern.news.databinding.NewsItemBinding
 import itamar.stern.news.models.News
-import itamar.stern.news.ui.NewsApplication
+import itamar.stern.news.NewsApplication
 import itamar.stern.news.utils.createDateString
 
 class NewsAdapter(val news: List<News>, val callbackClickOnNews: (news:News)->Unit) : RecyclerView.Adapter<NewsAdapter.VH>() {

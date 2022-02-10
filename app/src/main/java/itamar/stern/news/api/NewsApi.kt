@@ -3,7 +3,7 @@ package itamar.stern.news.api
 
 import itamar.stern.news.BuildConfig
 import itamar.stern.news.models.NewsResponse
-import itamar.stern.news.ui.NewsApplication
+import itamar.stern.news.NewsApplication
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET

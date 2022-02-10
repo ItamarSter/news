@@ -1,9 +1,7 @@
 package itamar.stern.news.ui.welcome_screen;
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import itamar.stern.news.models.News
-import itamar.stern.news.ui.NewsApplication
+import itamar.stern.news.NewsApplication
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 

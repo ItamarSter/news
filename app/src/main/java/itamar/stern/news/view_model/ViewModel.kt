@@ -1,27 +1,24 @@
-package itamar.stern.news.ui.view_model
+package itamar.stern.news.view_model
 
 import android.app.Application
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.view.View
 import android.view.Window
 import android.widget.Button
 import android.widget.ImageView
-import android.widget.ScrollView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButton
 import itamar.stern.news.R
 import itamar.stern.news.models.Category
 import itamar.stern.news.models.News
-import itamar.stern.news.ui.NewsApplication
+import itamar.stern.news.NewsApplication
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -92,9 +89,7 @@ class ViewModel(application: Application) : AndroidViewModel(application) {
                         allTechnologyNews.value?.addAll(technologyNews.value!!)
                         allTechnologyNews.value = allTechnologyNews.value
                     }
-
                 }
-
                 callbackFinishedDownloading()
             }
         }
