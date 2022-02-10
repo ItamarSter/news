@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import itamar.stern.news.R
 import itamar.stern.news.adapters.NewsAdapter
+import itamar.stern.news.adapters.WelcomeAdapter
 import itamar.stern.news.databinding.ActivityWelcomeBinding
 import itamar.stern.news.models.Category
 import itamar.stern.news.ui.NewsApplication
@@ -38,7 +39,12 @@ class WelcomeActivity : AppCompatActivity() {
         }
         binding.recyclerViewWelcome.layoutManager = LinearLayoutManager(this)
         viewModel.welcomeNews.observe(this){
-            binding.recyclerViewWelcome.adapter = NewsAdapter(it){}
+            binding.recyclerViewWelcome.adapter = WelcomeAdapter(it){ category ->
+                //onClick on news:
+                NewsApplication.whereToGoFromWelcome = Category.CATEGORIES[category]!!
+                startActivity(Intent(this, MainActivity::class.java))
+                finish()
+            }
         }
     }
 
