@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">All News</string>
+    <string name="tab_text_1">Tab 1</string>
+    <string name="tab_text_2">Tab 2</string>
+    <string name="general_fragment">General</string>
+    <string name="business_fragment">Business</string>
+    <string name="entertainment_fragment">Entertainment</string>
+    <string name="health_fragment">Health</string>
+    <string name="science_fragment">Science</string>
+    <string name="sports_fragment">Sports</string>
+    <string name="technology_fragment">Technology</string>
+    <string name="favorites_fragment">Favorites</string>
+</resources>
