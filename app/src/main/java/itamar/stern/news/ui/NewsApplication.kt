@@ -1,6 +1,8 @@
 package itamar.stern.news.ui
 
 import android.app.Application
+import android.content.Context
+import android.content.SharedPreferences
 import android.graphics.Bitmap
 import itamar.stern.news.api.NewsApi
 import itamar.stern.news.repository.NewsRepository
@@ -17,6 +19,10 @@ class NewsApplication: Application() {
 
         val repository: NewsRepository by lazy {
             NewsRepository(NewsApi.create())
+        }
+
+        val prefs: SharedPreferences by lazy {
+            instance.getSharedPreferences("prefs", Context.MODE_PRIVATE)
         }
 
         val roomDB: RoomDB by lazy {
