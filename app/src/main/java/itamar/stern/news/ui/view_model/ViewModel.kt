@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButton
 import itamar.stern.news.R
+import itamar.stern.news.models.Category
 import itamar.stern.news.models.News
 import itamar.stern.news.ui.NewsApplication
 import kotlinx.coroutines.Dispatchers
@@ -59,35 +60,35 @@ class ViewModel(application: Application) : AndroidViewModel(application) {
             launch(Dispatchers.Main) {
                 callbackStartDownloading()
             }
-            NewsApplication.repository.fetchNews("en", category, offset = offset)
+            NewsApplication.repository.fetchNews(category, offset = offset)
             launch(Dispatchers.Main) {
 
                 when (category) {
-                    "general" -> {
+                    Category.GENERAL.first -> {
                         allGeneralNews.value?.addAll(generalNews.value!!)
                         allGeneralNews.value = allGeneralNews.value
                     }
-                    "business" -> {
+                    Category.BUSINESS.first -> {
                         allBusinessNews.value?.addAll(businessNews.value!!)
                         allBusinessNews.value = allBusinessNews.value
                     }
-                    "entertainment" -> {
+                    Category.ENTERTAINMENT.first -> {
                         allEntertainmentNews.value?.addAll(entertainmentNews.value!!)
                         allEntertainmentNews.value = allEntertainmentNews.value
                     }
-                    "health" -> {
+                    Category.HEALTH.first -> {
                         allHealthNews.value?.addAll(healthNews.value!!)
                         allHealthNews.value = allHealthNews.value
                     }
-                    "science" -> {
+                    Category.SCIENCE.first -> {
                         allScienceNews.value?.addAll(scienceNews.value!!)
                         allScienceNews.value = allScienceNews.value
                     }
-                    "sports" -> {
+                    Category.SPORTS.first -> {
                         allSportsNews.value?.addAll(sportsNews.value!!)
                         allSportsNews.value = allSportsNews.value
                     }
-                    "technology" -> {
+                    Category.TECHNOLOGY.first -> {
                         allTechnologyNews.value?.addAll(technologyNews.value!!)
                         allTechnologyNews.value = allTechnologyNews.value
                     }
@@ -133,7 +134,7 @@ class ViewModel(application: Application) : AndroidViewModel(application) {
         dialog.show()
     }
 
-    fun browseNews(url: String) {
+    private fun browseNews(url: String) {
         ContextCompat.startActivity(
             getApplication(),
             Intent(Intent.ACTION_VIEW, Uri.parse(url)),
@@ -141,7 +142,7 @@ class ViewModel(application: Application) : AndroidViewModel(application) {
         )
     }
 
-    fun clickOnFavorites(news: News, button: MaterialButton) {
+    private fun clickOnFavorites(news: News, button: MaterialButton) {
         //Check if we already marked this news as favorite. yes -> remove it. no -> mark it as favorite.
         //Replace the star icon with star border and vice versa
         with(NewsApplication.roomDB.newsDao()) {
@@ -155,7 +156,7 @@ class ViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun isFavorite(published_at: String): Boolean {
+    private fun isFavorite(published_at: String): Boolean {
         if (NewsApplication.roomDB.newsDao().getFavoriteNewsByPublishedAt(published_at).isEmpty()) {
             return false
         }
@@ -164,13 +165,14 @@ class ViewModel(application: Application) : AndroidViewModel(application) {
 
     fun listenToScrollAndLoadMoreNews(recyclerView: RecyclerView, category: String, callbackStartDownloading: () -> Unit, callbackFinishedDownloading: (Int) -> Unit){
         val whichCategory = when(category){
-            "general" -> 0
-            "business" -> 1
-            "entertainment" -> 2
-            "health" -> 3
-            "science" -> 4
-            "sports" -> 5
-            "technology" -> 6
+            //todo: change consts to map:
+            Category.GENERAL.first -> 0
+            Category.BUSINESS.first -> 1
+            Category.ENTERTAINMENT.first -> 2
+            Category.HEALTH.first -> 3
+            Category.SCIENCE.first -> 4
+            Category.SPORTS.first -> 5
+            Category.TECHNOLOGY.first -> 6
             else -> {-1}
         }
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {

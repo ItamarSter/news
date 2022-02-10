@@ -27,13 +27,7 @@ class NewsApplication: Application() {
 
         var whereToGoFromWelcome = -1
 
-        const val GENERAL = 0
-        const val BUSINESS = 1
-        const val ENTERTAINMENT = 2
-        const val HEALTH = 3
-        const val SCIENCE = 4
-        const val SPORTS = 5
-        const val TECHNOLOGY = 6
-        const val FAVORITES = 7
+        const val LANGUAGE = "en"
+
     }
 }

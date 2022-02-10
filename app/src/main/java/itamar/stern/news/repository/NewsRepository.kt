@@ -2,6 +2,7 @@ package itamar.stern.news.repository
 
 import androidx.lifecycle.MutableLiveData
 import itamar.stern.news.api.NewsApi
+import itamar.stern.news.models.Category
 import itamar.stern.news.models.News
 
 class NewsRepository(
@@ -15,40 +16,55 @@ class NewsRepository(
     val sportsNewsList = MutableLiveData<List<News>>(mutableListOf())
     val technologyNewsList = MutableLiveData<List<News>>(mutableListOf())
 
-    suspend fun fetchNews(language:String, category: String, offset: String = "0", limit: String = "100"){
+    val welcomeNewsList = MutableLiveData<MutableList<News>>(mutableListOf())
+
+    suspend fun fetchNews(category: String, offset: String = "0", limit: String = "100"){
         try{
-            val news = newsApi.fetchMovies(language = language, category = category, offset = offset, limit = limit)
+            val news = newsApi.fetchMovies(category = category, offset = offset, limit = limit)
             when(category){
-                "general" -> {
+                Category.GENERAL.first -> {
                     generalNewsList.postValue(news.data)
                 }
-                "business" -> {
+                Category.BUSINESS.first -> {
                     businessNewsList.postValue(news.data)
                 }
-                "entertainment" -> {
+                Category.ENTERTAINMENT.first -> {
                     entertainmentNewsList.postValue(news.data)
                 }
-                "health" -> {
+                Category.HEALTH.first -> {
                     healthNewsList.postValue(news.data)
                 }
-                "science" -> {
+                Category.SCIENCE.first -> {
                     scienceNewsList.postValue(news.data)
                 }
-                "sports" -> {
+                Category.SPORTS.first -> {
                     sportsNewsList.postValue(news.data)
                 }
-                "technology" -> {
+                Category.TECHNOLOGY.first -> {
                     technologyNewsList.postValue(news.data)
                 }
             }
         } catch (e: Exception){
-            println(e)
-            e.printStackTrace()
-            println(e.message)
-            println(e.localizedMessage)
+            //todo: save the exceptions
         }
-
-
-
     }
+
+    suspend fun fetchNewsForWelcome(callbackDone:()->Unit) {
+        var news = newsApi.fetchMovies(category = Category.GENERAL.first, limit = "1")
+        welcomeNewsList.value?.addAll(news.data)
+        news = newsApi.fetchMovies(category = Category.BUSINESS.first, limit = "1")
+        welcomeNewsList.value?.addAll(news.data)
+        news = newsApi.fetchMovies(category = Category.ENTERTAINMENT.first, limit = "1")
+        welcomeNewsList.value?.addAll(news.data)
+        news = newsApi.fetchMovies(category = Category.HEALTH.first, limit = "1")
+        welcomeNewsList.value?.addAll(news.data)
+        news = newsApi.fetchMovies(category = Category.SCIENCE.first, limit = "1")
+        welcomeNewsList.value?.addAll(news.data)
+        news = newsApi.fetchMovies(category = Category.SPORTS.first, limit = "1")
+        welcomeNewsList.value?.addAll(news.data)
+        news = newsApi.fetchMovies(category = Category.TECHNOLOGY.first, limit = "1")
+        welcomeNewsList.value?.addAll(news.data)
+        callbackDone()
+    }
+
 }
