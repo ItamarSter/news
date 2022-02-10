@@ -5,16 +5,23 @@ import android.graphics.Color
 import android.os.Bundle
 import com.google.android.material.tabs.TabLayout
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.MutableLiveData
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayoutMediator
 import itamar.stern.news.R
 import itamar.stern.news.databinding.ActivityMainBinding
 import itamar.stern.news.NewsApplication
+import itamar.stern.news.models.Category
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
+    companion object {
+        //livedata for handle logged-out user trying to mark favorites - send him to login:
+        //(observe in onCreate)
+        val goToLogin = MutableLiveData(false)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,16 +33,6 @@ class MainActivity : AppCompatActivity() {
         val viewPager: ViewPager2 = binding.viewPager
         viewPager.adapter = sectionsPagerAdapter
         val tabs: TabLayout = binding.tabs
-        val tabColors = arrayOf(
-            Color.BLUE,
-            Color.YELLOW,
-            Color.RED,
-            Color.GREEN,
-            Color.CYAN,
-            Color.GRAY,
-            Color.MAGENTA,
-            Color.CYAN
-        )
         val tabsNames = arrayOf(
             applicationContext.resources.getString(R.string.general_fragment),
             applicationContext.resources.getString(R.string.business_fragment),
@@ -48,11 +45,16 @@ class MainActivity : AppCompatActivity() {
         )
         TabLayoutMediator(tabs, viewPager) { tab, position ->
             tab.text = tabsNames[position]
-            //tab.view.setBackgroundColor(tabColors[position])
         }.attach()
 
         viewPager.currentItem = NewsApplication.whereToGoFromWelcome
 
+        //When logged-out user trying to mark favorites - send him to login:
+        goToLogin.observe(this){
+            if(it){
+                viewPager.currentItem = Category.FAVORITES.second
+            }
+        }
     }
 
 

@@ -40,6 +40,7 @@ class WelcomeAdapter(val news: List<News>, val callbackClickOnCategory:(String)-
                 //Don't show recycled images:
                 imageView.visibility = View.GONE
             }
+
             root.setOnClickListener {
                 it.setBackgroundColor(ContextCompat.getColor(root.context, R.color.gray))
                 callbackClickOnCategory(news[position].category)

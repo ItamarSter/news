@@ -18,5 +18,5 @@ interface NewsDao {
     fun getFavoriteNewsByPublishedAt(published_at: String):List<News>
 
     @Query("DELETE FROM FavoritesNews WHERE published_at=:published_at")
-    fun removeFavorite(published_at: String)
+    fun removeFavoriteByPublishedAt(published_at: String)
 }

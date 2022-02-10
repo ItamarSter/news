@@ -4,7 +4,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.welcome_screen.WelcomeActivity">
+    tools:context=".ui.welcome_screen.WelcomeActivity"
+    android:background="#E3FDF0">
+
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/spinner_shape"
+        android:spinnerMode="dropdown"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layoutWelcomeNews"
@@ -28,6 +41,8 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ProgressBar
+            android:visibility="visible"
+            tools:visibility="visible"
             android:id="@+id/progressBarWelcome"
             style="?android:attr/progressBarStyle"
             android:layout_width="wrap_content"

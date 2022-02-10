@@ -51,10 +51,23 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:visibility="invisible"
+        tools:visibility="visible"
         android:backgroundTint="@color/white"
         android:layout_marginEnd="12dp"
         android:clickable="true"
         android:src="@drawable/sign_out_icon"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ProgressBar
+        android:visibility="invisible"
+        tools:visibility="visible"
+        android:id="@+id/progressBarFirebaseLoading"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/recyclerViewFavorites"
+        app:layout_constraintEnd_toEndOf="@+id/recyclerViewFavorites"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/recyclerViewFavorites" />
 </androidx.constraintlayout.widget.ConstraintLayout>

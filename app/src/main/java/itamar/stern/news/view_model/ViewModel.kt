@@ -19,6 +19,7 @@ import itamar.stern.news.R
 import itamar.stern.news.models.Category
 import itamar.stern.news.models.News
 import itamar.stern.news.NewsApplication
+import itamar.stern.news.ui.main.MainActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -113,8 +114,15 @@ class ViewModel(application: Application) : AndroidViewModel(application) {
             browseNews(news.url)
         }
         dialog.findViewById<Button>(R.id.buttonFavorites).setOnClickListener {
-            clickOnFavorites(news, it as MaterialButton)
+            //Check if user logged in. just logged in can mark favorites:
+            if(NewsApplication.account != null){
+                clickOnFavorites(news, it as MaterialButton)
+            } else {
+                dialog.dismiss()
+                MainActivity.goToLogin.postValue(true)
+            }
         }
+
         (dialog.findViewById<Button>(R.id.buttonFavorites) as MaterialButton).setIconResource(
             if (isFavorite(
                     news.published_at
@@ -142,7 +150,7 @@ class ViewModel(application: Application) : AndroidViewModel(application) {
         //Replace the star icon with star border and vice versa
         with(NewsApplication.roomDB.newsDao()) {
             if (isFavorite(news.published_at)) {
-                removeFavorite(news.published_at)
+                removeFavoriteByPublishedAt(news.published_at)
                 button.setIconResource(R.drawable.ic_baseline_star_border_24)
             } else {
                 addFavorites(news)

@@ -19,47 +19,42 @@ import androidx.activity.result.contract.ActivityResultContracts.StartActivityFo
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.tasks.Task
+import itamar.stern.news.NewsApplication
 import itamar.stern.news.R
+import itamar.stern.news.ui.main.MainActivity
 
 
 class FavoritesFragment : Fragment() {
 
-    companion object {
-        val userName = MutableLiveData("no one")
-    }
     private lateinit var binding: FavoritesFragmentBinding
     private lateinit var viewModel: ViewModel
-    private lateinit var mGoogleSignInClient: GoogleSignInClient
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         viewModel = ViewModelProvider(this).get(ViewModel::class.java)
         binding = FavoritesFragmentBinding.inflate(layoutInflater)
-        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestId()
-            .requestProfile()
-            .build()
-        mGoogleSignInClient = GoogleSignIn.getClient(requireActivity(), gso);
         return binding.root
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        //If we came here from logged-out user trying to mark favorites - return the livedata to false:
+        MainActivity.goToLogin.postValue(false)
 
-        val account = GoogleSignIn.getLastSignedInAccount(requireContext())
-        if (account == null) {
+        if (NewsApplication.account == null) {
             showLoginViews()
         } else {
-            userName.postValue(account.displayName)
             showFavoritesViews()
         }
 
         binding.buttonSignIn.setOnClickListener {
-            signInResult.launch(mGoogleSignInClient.signInIntent)
+            signInResult.launch(NewsApplication.mGoogleSignInClient.signInIntent)
         }
         binding.fabSignOut.setOnClickListener {
-            mGoogleSignInClient.signOut()
+            NewsApplication.mGoogleSignInClient.signOut()
             showLoginViews()
             hideFavoritesViews()
         }
@@ -67,7 +62,7 @@ class FavoritesFragment : Fragment() {
         //show the favorites:
         binding.recyclerViewFavorites.layoutManager = LinearLayoutManager(requireContext())
         viewModel.favorites.observe(viewLifecycleOwner) {
-            binding.recyclerViewFavorites.adapter = NewsAdapter(it) { news ->
+            binding.recyclerViewFavorites.adapter = NewsAdapter(it) { /*onClickNews callback*/ news ->
                 viewModel.openNewsDialog(
                     requireContext(),
                     news,
@@ -76,6 +71,7 @@ class FavoritesFragment : Fragment() {
                 )
             }
         }
+
     }
 
     private val signInResult = registerForActivityResult(

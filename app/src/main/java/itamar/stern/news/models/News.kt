@@ -17,3 +17,4 @@ data class News (
     @PrimaryKey
     val published_at: String
     )
+

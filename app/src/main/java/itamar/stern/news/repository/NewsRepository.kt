@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import itamar.stern.news.api.NewsApi
 import itamar.stern.news.models.Category
 import itamar.stern.news.models.News
+import itamar.stern.news.utils.sendErrorsToFirebase
 
 class NewsRepository(
     private val newsApi: NewsApi
@@ -45,7 +46,7 @@ class NewsRepository(
                 }
             }
         } catch (e: Exception){
-            //todo: save the exceptions
+            sendErrorsToFirebase(e)
         }
     }
 
@@ -66,7 +67,7 @@ class NewsRepository(
             news = newsApi.fetchMovies(category = Category.TECHNOLOGY.first, limit = "1")
             welcomeNewsList.value?.addAll(news.data)
         } catch (e: Exception){
-            //todo: save the exception
+            sendErrorsToFirebase(e)
         }
 
         callbackDone()
