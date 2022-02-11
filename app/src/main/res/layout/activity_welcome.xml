@@ -97,7 +97,20 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView2"
             app:srcCompat="@drawable/favoritesicon" />
-
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/animationArrowFavorites"
+            android:translationZ="10dp"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            app:lottie_colorFilter="@color/black"
+            app:lottie_url="REPLACE_JSON_URL"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:lottie_rawRes="@raw/arrow" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView

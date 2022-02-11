@@ -16,11 +16,13 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 
 
-class WelcomeActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
+class WelcomeActivity : AppCompatActivity() {
 
     private val languages = arrayOf("en", "de", "es")
     private lateinit var binding: ActivityWelcomeBinding
     private lateinit var viewModel: WelcomeViewModel
+    //Flag to prevent double refreshing news when pressed back to this page (spinner selection and onResume, both cause to refresh)
+    private var isRefreshingNow = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,19 +33,15 @@ class WelcomeActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener 
     override fun onResume() {
         super.onResume()
         NewsApplication.LANGUAGE = NewsApplication.prefs.getString("language", "en").toString()
-        viewModel.welcomeNews.postValue(mutableListOf())
-        viewModel.loadNews({}){
-            binding.progressBarWelcome.visibility = View.INVISIBLE
+
+        if(!isRefreshingNow) {
+            refreshNews()
         }
 
-
-        //OnClick: color the layout, go to favorites:
-        binding.favoritesLayout.setOnClickListener{
-            it.setBackgroundResource(itamar.stern.news.R.drawable.welcome_layouts_shape_clicked)
+        //OnClick: go to favorites:
+        binding.animationArrowFavorites.setOnClickListener{
             NewsApplication.whereToGoFromWelcome = Category.FAVORITES.second
-            binding.imageViewFavoritsIcon.setImageResource(itamar.stern.news.R.drawable.favoritesiconclicked)
             startActivity(Intent(this, MainActivity::class.java))
-            finish()
         }
         binding.recyclerViewWelcome.layoutManager = LinearLayoutManager(this)
         viewModel.welcomeNews.observe(this){
@@ -51,7 +49,6 @@ class WelcomeActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener 
                 //onClick on news:
                 NewsApplication.whereToGoFromWelcome = Category.CATEGORIES[category]!!
                 startActivity(Intent(this, MainActivity::class.java))
-                finish()
             }
         }
 
@@ -62,16 +59,31 @@ class WelcomeActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener 
         val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, languages)
         dropdown.adapter = adapter
         binding.spinner.setSelection(languages.indexOf(NewsApplication.LANGUAGE), false)
-        dropdown.onItemSelectedListener = this
+
+        dropdown.onItemSelectedListener = object: AdapterView.OnItemSelectedListener{
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                NewsApplication.LANGUAGE = languages[position].substring(0, 2)
+                NewsApplication.prefs.edit().putString("language", NewsApplication.LANGUAGE).apply()
+                //Toast.makeText(this@WelcomeActivity, "Reopen the app to refresh the settings", Toast.LENGTH_SHORT).show()
+                //stop listening until we get back to this page, to prevent send the toast we we set the language in the spinner:
+                //dropdown.onItemSelectedListener = null
+                if(!isRefreshingNow){
+                    refreshNews()
+                }
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+        }
     }
-    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-        NewsApplication.LANGUAGE = languages[position].substring(0, 2)
-        NewsApplication.prefs.edit().putString("language", NewsApplication.LANGUAGE).apply()
-        Toast.makeText(this, "Reopen the app to refresh the settings", Toast.LENGTH_SHORT).show()
+
+    private fun refreshNews() {
+        viewModel.welcomeNews.postValue(mutableListOf())
+        viewModel.loadNews({
+            isRefreshingNow = true
+            binding.progressBarWelcome.visibility = View.VISIBLE
+        }) {
+            isRefreshingNow = false
+            binding.progressBarWelcome.visibility = View.INVISIBLE
+        }
     }
-
-    override fun onNothingSelected(parent: AdapterView<*>?) {}
-
-
-
 }
