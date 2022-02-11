@@ -30,7 +30,7 @@ class BusinessFragment : Fragment() {
 
         //First loading:
         viewModel.loadNews("0", "business", {}, {
-            binding.progressBar2.visibility = View.INVISIBLE
+            binding.progressBarBusiness.visibility = View.INVISIBLE
         })
 
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
@@ -42,10 +42,10 @@ class BusinessFragment : Fragment() {
 
         viewModel.listenToScrollAndLoadMoreNews(binding.recyclerView, "business",{
             //Show progressBar when downloading old news:
-            binding.progressBar.visibility = View.VISIBLE
+            binding.progressBarBusinessMore.visibility = View.VISIBLE
         }){ position->
             //Hide progressBar when finished download:
-            binding.progressBar.visibility = View.GONE
+            binding.progressBarBusinessMore.visibility = View.GONE
             //Scroll to position where we were before the downloading:
             val offset = binding.recyclerView.height
             (binding.recyclerView.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(position-100, (offset+48.dp()).toInt())

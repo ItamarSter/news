@@ -14,6 +14,7 @@ import itamar.stern.news.NewsApplication
 import itamar.stern.news.ui.main.MainActivity
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import itamar.stern.news.utils.noInternet
 
 
 class WelcomeActivity : AppCompatActivity() {
@@ -78,6 +79,9 @@ class WelcomeActivity : AppCompatActivity() {
 
     private fun refreshNews() {
         viewModel.welcomeNews.postValue(mutableListOf())
+        if(noInternet(this)){
+            return
+        }
         viewModel.loadNews({
             isRefreshingNow = true
             binding.progressBarWelcome.visibility = View.VISIBLE

@@ -1,11 +1,16 @@
 package itamar.stern.news.utils
 
+import android.app.Application
+import android.content.Context
 import android.content.res.Resources
+import android.net.ConnectivityManager
 import android.os.Build
 import android.util.TypedValue
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import itamar.stern.news.NewsApplication
 import itamar.stern.news.models.MyError
+import itamar.stern.news.network.NetworkStatusChecker
 import java.lang.RuntimeException
 import java.time.LocalDateTime
 import java.time.OffsetDateTime
@@ -62,4 +67,12 @@ fun sendErrorsToFirebase(e: Exception) {
         )
     )
 
+}
+
+fun noInternet(context: Context) : Boolean {
+    if (!NetworkStatusChecker(context.getSystemService(ConnectivityManager::class.java)).hasInternetConnection()){
+        Toast.makeText(context, "No internet connection", Toast.LENGTH_SHORT).show()
+        return true
+    }
+    return false
 }

@@ -4,6 +4,7 @@ import android.app.Application
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
+import android.net.ConnectivityManager
 import android.net.Uri
 import android.os.Build
 import android.text.Html
@@ -11,6 +12,7 @@ import android.view.Window
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.AndroidViewModel
@@ -22,7 +24,9 @@ import itamar.stern.news.R
 import itamar.stern.news.models.Category
 import itamar.stern.news.models.News
 import itamar.stern.news.NewsApplication
+import itamar.stern.news.network.NetworkStatusChecker
 import itamar.stern.news.ui.main.MainActivity
+import itamar.stern.news.utils.noInternet
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -47,6 +51,7 @@ class ViewModel(application: Application) : AndroidViewModel(application) {
     val allSportsNews = MutableLiveData<MutableList<News>>(mutableListOf())
     val allTechnologyNews = MutableLiveData<MutableList<News>>(mutableListOf())
 
+    //Flags to prevent double news loading:
     private val isLoadingNewsNow = mutableListOf(false, false, false, false, false, false, false)
     private val numberOfNewsFetched = mutableListOf(100, 100, 100, 100, 100, 100, 100)
 
@@ -174,7 +179,7 @@ class ViewModel(application: Application) : AndroidViewModel(application) {
 
     fun listenToScrollAndLoadMoreNews(recyclerView: RecyclerView, category: String, callbackStartDownloading: () -> Unit, callbackFinishedDownloading: (Int) -> Unit){
         val whichCategory = when(category){
-            //todo: change consts to map:
+
             Category.GENERAL.first -> 0
             Category.BUSINESS.first -> 1
             Category.ENTERTAINMENT.first -> 2
@@ -187,6 +192,9 @@ class ViewModel(application: Application) : AndroidViewModel(application) {
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 if (!recyclerView.canScrollVertically(1) && !isLoadingNewsNow[whichCategory]) {
+                    if (noInternet(getApplication<Application>())){
+                        return
+                    }
                     loadNews("${numberOfNewsFetched[whichCategory]}", category,{
                         //Set isLoadingNewsNow true to prevent reloading of the same news (if the user scrolls again to bottom before the download is completed)
                         isLoadingNewsNow[whichCategory] = true
