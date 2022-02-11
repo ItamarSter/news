@@ -8,9 +8,9 @@ Save and see favorites require google sign in.<br/>
 
 ### Screenshots
 <pre>
-<img src="https://github.com/ItamarSter/news/tree/main/screenshots/screens1.jpeg" width="200" />        <img src="https://github.com/ItamarSter/news/tree/main/screenshots/screens2.jpeg" width="200" />        <img src="https://github.com/ItamarSter/news/tree/main/screenshots/screens3.jpeg" width="200" />
+<img src="https://github.com/ItamarSter/news/blob/main/screenshots/screens1.jpeg" width="200" />        <img src="https://github.com/ItamarSter/news/blob/main/screenshots/screens2.jpeg" width="200" />        <img src="https://github.com/ItamarSter/news/blob/main/screenshots/screens3.jpeg" width="200" />
 <br/>
-<img src="https://github.com/ItamarSter/news/tree/main/screenshots/screens4.jpeg" width="200" />        <img src="https://github.com/ItamarSter/news/tree/main/screenshots/screens5.jpeg" width="200" />        <img src="https://github.com/ItamarSter/news/tree/main/screenshots/screens6.jpeg" width="200" />
+<img src="https://github.com/ItamarSter/news/blob/main/screenshots/screens4.jpeg" width="200" />        <img src="https://github.com/ItamarSter/news/blob/main/screenshots/screens5.jpeg" width="200" />        <img src="https://github.com/ItamarSter/news/blob/main/screenshots/screens6.jpeg" width="200" />
 </pre>
 
 ## Technologies and libraries
