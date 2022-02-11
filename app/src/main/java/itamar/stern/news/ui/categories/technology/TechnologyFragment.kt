@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 
 import itamar.stern.news.adapters.NewsAdapter
 import itamar.stern.news.databinding.TechnologyFragmentBinding
+import itamar.stern.news.models.Category
 import itamar.stern.news.utils.dp
 import itamar.stern.news.view_model.ViewModel
 
@@ -36,7 +37,8 @@ class TechnologyFragment : Fragment() {
         })
 
         binding.recyclerViewTechnology.layoutManager = LinearLayoutManager(requireContext())
-        viewModel.allTechnologyNews.observe(viewLifecycleOwner){
+        viewModel.allLoadedNewsLists[Category.TECHNOLOGY.first]?.observe(viewLifecycleOwner){
+        //viewModel.allTechnologyNews.observe(viewLifecycleOwner){
             binding.recyclerViewTechnology.adapter = NewsAdapter(it){ news->
                 viewModel.openNewsDialog(requireContext(), news, binding.recyclerViewTechnology.height, binding.recyclerViewTechnology.width)
             }

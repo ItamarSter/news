@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 
 import itamar.stern.news.adapters.NewsAdapter
 import itamar.stern.news.databinding.ScienceFragmentBinding
+import itamar.stern.news.models.Category
 import itamar.stern.news.utils.dp
 import itamar.stern.news.view_model.ViewModel
 
@@ -36,7 +37,8 @@ class ScienceFragment : Fragment() {
         })
 
         binding.recyclerViewScience.layoutManager = LinearLayoutManager(requireContext())
-        viewModel.allScienceNews.observe(viewLifecycleOwner){
+        viewModel.allLoadedNewsLists[Category.SCIENCE.first]?.observe(viewLifecycleOwner){
+        //viewModel.allScienceNews.observe(viewLifecycleOwner){
             binding.recyclerViewScience.adapter = NewsAdapter(it){ news->
                 viewModel.openNewsDialog(requireContext(), news, binding.recyclerViewScience.height, binding.recyclerViewScience.width)
             }

@@ -13,42 +13,23 @@ import retrofit2.HttpException
 class NewsRepository(
     private val newsApi: NewsApi
 ) {
-    val generalNewsList = MutableLiveData<List<News>>(mutableListOf())
-    val businessNewsList = MutableLiveData<List<News>>(mutableListOf())
-    val entertainmentNewsList = MutableLiveData<List<News>>(mutableListOf())
-    val healthNewsList = MutableLiveData<List<News>>(mutableListOf())
-    val scienceNewsList = MutableLiveData<List<News>>(mutableListOf())
-    val sportsNewsList = MutableLiveData<List<News>>(mutableListOf())
-    val technologyNewsList = MutableLiveData<List<News>>(mutableListOf())
+    val newsListsMap = hashMapOf(
+        Pair(Category.GENERAL.first, MutableLiveData<List<News>>(mutableListOf())),
+        Pair(Category.BUSINESS.first, MutableLiveData<List<News>>(mutableListOf())),
+        Pair(Category.ENTERTAINMENT.first, MutableLiveData<List<News>>(mutableListOf())),
+        Pair(Category.HEALTH.first, MutableLiveData<List<News>>(mutableListOf())),
+        Pair(Category.SCIENCE.first, MutableLiveData<List<News>>(mutableListOf())),
+        Pair(Category.SPORTS.first, MutableLiveData<List<News>>(mutableListOf())),
+        Pair(Category.TECHNOLOGY.first, MutableLiveData<List<News>>(mutableListOf())),
+    )
+
 
     val welcomeNewsList = MutableLiveData<MutableList<News>>(mutableListOf())
 
     suspend fun fetchNews(category: String, offset: String = "0", limit: String = "100"){
         try{
             val news = newsApi.fetchMovies(category = category, offset = offset, limit = limit)
-            when(category){
-                Category.GENERAL.first -> {
-                    generalNewsList.postValue(news.data)
-                }
-                Category.BUSINESS.first -> {
-                    businessNewsList.postValue(news.data)
-                }
-                Category.ENTERTAINMENT.first -> {
-                    entertainmentNewsList.postValue(news.data)
-                }
-                Category.HEALTH.first -> {
-                    healthNewsList.postValue(news.data)
-                }
-                Category.SCIENCE.first -> {
-                    scienceNewsList.postValue(news.data)
-                }
-                Category.SPORTS.first -> {
-                    sportsNewsList.postValue(news.data)
-                }
-                Category.TECHNOLOGY.first -> {
-                    technologyNewsList.postValue(news.data)
-                }
-            }
+            newsListsMap[category]?.postValue(news.data)
         } catch (e: Exception){
             if(e is HttpException){
                 WelcomeActivity.noMoreRequests.postValue(true)

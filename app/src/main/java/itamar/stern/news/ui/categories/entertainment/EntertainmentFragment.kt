@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import itamar.stern.news.adapters.NewsAdapter
 import itamar.stern.news.databinding.EntertainmentFragmentBinding
+import itamar.stern.news.models.Category
 import itamar.stern.news.utils.dp
 import itamar.stern.news.view_model.ViewModel
 
@@ -37,7 +38,8 @@ class EntertainmentFragment : Fragment() {
         })
 
         binding.recyclerViewEntertainment.layoutManager = LinearLayoutManager(requireContext())
-        viewModel.allEntertainmentNews.observe(viewLifecycleOwner){
+        viewModel.allLoadedNewsLists[Category.ENTERTAINMENT.first]?.observe(viewLifecycleOwner){
+        //viewModel.allEntertainmentNews.observe(viewLifecycleOwner){
             binding.recyclerViewEntertainment.adapter = NewsAdapter(it){ news->
                 viewModel.openNewsDialog(requireContext(), news, binding.recyclerViewEntertainment.height, binding.recyclerViewEntertainment.width)
             }

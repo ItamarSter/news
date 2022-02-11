@@ -39,7 +39,6 @@ class NewsAdapter(val news: List<News>, val callbackClickOnNews: (news:News)->Un
                     .with(holder.binding.root.context)
                     .asBitmap()
                     .load(news[position].image)
-                    .thumbnail(0.05f)
                     .apply(
                         RequestOptions()
                             .fitCenter()

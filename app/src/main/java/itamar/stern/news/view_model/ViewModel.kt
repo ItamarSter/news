@@ -33,29 +33,33 @@ import kotlinx.coroutines.launch
 class ViewModel(application: Application) : AndroidViewModel(application) {
     val favorites = NewsApplication.roomDB.newsDao().getFavorites()
 
-    //the last loaded 100 news:
-    private val generalNews = NewsApplication.repository.generalNewsList
-    private val businessNews = NewsApplication.repository.businessNewsList
-    private val entertainmentNews = NewsApplication.repository.entertainmentNewsList
-    private val healthNews = NewsApplication.repository.healthNewsList
-    private val scienceNews = NewsApplication.repository.scienceNewsList
-    private val sportsNews = NewsApplication.repository.sportsNewsList
-    private val technologyNews = NewsApplication.repository.technologyNewsList
+//the last loaded 100 news:
+    private val newsListsMap = hashMapOf(
+        Pair(Category.GENERAL.first, NewsApplication.repository.newsListsMap[Category.GENERAL.first]),
+        Pair(Category.BUSINESS.first, NewsApplication.repository.newsListsMap[Category.BUSINESS.first]),
+        Pair(Category.ENTERTAINMENT.first, NewsApplication.repository.newsListsMap[Category.ENTERTAINMENT.first]),
+        Pair(Category.HEALTH.first, NewsApplication.repository.newsListsMap[Category.HEALTH.first]),
+        Pair(Category.SCIENCE.first, NewsApplication.repository.newsListsMap[Category.SCIENCE.first]),
+        Pair(Category.SPORTS.first, NewsApplication.repository.newsListsMap[Category.SPORTS.first]),
+        Pair(Category.TECHNOLOGY.first, NewsApplication.repository.newsListsMap[Category.TECHNOLOGY.first]),
+    )
 
     //all the loaded news:
-    val allGeneralNews = MutableLiveData<MutableList<News>>(mutableListOf())
-    val allBusinessNews = MutableLiveData<MutableList<News>>(mutableListOf())
-    val allEntertainmentNews = MutableLiveData<MutableList<News>>(mutableListOf())
-    val allHealthNews = MutableLiveData<MutableList<News>>(mutableListOf())
-    val allScienceNews = MutableLiveData<MutableList<News>>(mutableListOf())
-    val allSportsNews = MutableLiveData<MutableList<News>>(mutableListOf())
-    val allTechnologyNews = MutableLiveData<MutableList<News>>(mutableListOf())
+    val allLoadedNewsLists = hashMapOf(
+        Pair(Category.GENERAL.first, MutableLiveData<MutableList<News>>(mutableListOf())),
+        Pair(Category.BUSINESS.first, MutableLiveData<MutableList<News>>(mutableListOf())),
+        Pair(Category.ENTERTAINMENT.first, MutableLiveData<MutableList<News>>(mutableListOf())),
+        Pair(Category.HEALTH.first, MutableLiveData<MutableList<News>>(mutableListOf())),
+        Pair(Category.SCIENCE.first, MutableLiveData<MutableList<News>>(mutableListOf())),
+        Pair(Category.SPORTS.first, MutableLiveData<MutableList<News>>(mutableListOf())),
+        Pair(Category.TECHNOLOGY.first, MutableLiveData<MutableList<News>>(mutableListOf())),
+    )
 
     //Flags to prevent double news loading:
     private val isLoadingNewsNow = mutableListOf(false, false, false, false, false, false, false)
     private val numberOfNewsFetched = mutableListOf(100, 100, 100, 100, 100, 100, 100)
 
-
+    //Using coroutines to asynchronously fetch data from the internet
     fun loadNews(
         offset: String,
         category: String,
@@ -68,37 +72,8 @@ class ViewModel(application: Application) : AndroidViewModel(application) {
             }
             NewsApplication.repository.fetchNews(category, offset = offset)
             launch(Dispatchers.Main) {
-
-                when (category) {
-                    Category.GENERAL.first -> {
-                        allGeneralNews.value?.addAll(generalNews.value!!)
-                        allGeneralNews.value = allGeneralNews.value
-                    }
-                    Category.BUSINESS.first -> {
-                        allBusinessNews.value?.addAll(businessNews.value!!)
-                        allBusinessNews.value = allBusinessNews.value
-                    }
-                    Category.ENTERTAINMENT.first -> {
-                        allEntertainmentNews.value?.addAll(entertainmentNews.value!!)
-                        allEntertainmentNews.value = allEntertainmentNews.value
-                    }
-                    Category.HEALTH.first -> {
-                        allHealthNews.value?.addAll(healthNews.value!!)
-                        allHealthNews.value = allHealthNews.value
-                    }
-                    Category.SCIENCE.first -> {
-                        allScienceNews.value?.addAll(scienceNews.value!!)
-                        allScienceNews.value = allScienceNews.value
-                    }
-                    Category.SPORTS.first -> {
-                        allSportsNews.value?.addAll(sportsNews.value!!)
-                        allSportsNews.value = allSportsNews.value
-                    }
-                    Category.TECHNOLOGY.first -> {
-                        allTechnologyNews.value?.addAll(technologyNews.value!!)
-                        allTechnologyNews.value = allTechnologyNews.value
-                    }
-                }
+                allLoadedNewsLists[category]?.value?.addAll(newsListsMap[category]?.value!!)
+                allLoadedNewsLists[category]?.value = allLoadedNewsLists[category]?.value
                 callbackFinishedDownloading()
             }
         }
@@ -124,8 +99,10 @@ class ViewModel(application: Application) : AndroidViewModel(application) {
         dialog.findViewById<Button>(R.id.buttonBrowse).setOnClickListener {
             browseNews(news.url)
         }
+        //Using room database for save the favorites on the device.
+        //It's faster to show, mark and remove favorites from room than from an internet server.
         dialog.findViewById<Button>(R.id.buttonFavorites).setOnClickListener {
-            //Check if user logged in. just logged in can mark favorites:
+            //Check if user logged in. Just logged in can mark favorites:
             if(NewsApplication.account != null){
                 clickOnFavorites(news, it as MaterialButton)
             } else {
@@ -140,6 +117,7 @@ class ViewModel(application: Application) : AndroidViewModel(application) {
                 )
             ) R.drawable.ic_baseline_star_24 else R.drawable.ic_baseline_star_border_24
         )
+        //Check if the api gave us image url:
         if (news.image != null) {
             val imageView = dialog.findViewById<ImageView>(R.id.imageView2)
             imageView.setImageBitmap(NewsApplication.bitmapImages[news.image])
@@ -151,7 +129,7 @@ class ViewModel(application: Application) : AndroidViewModel(application) {
     private fun browseNews(url: String) {
         ContextCompat.startActivity(
             getApplication(),
-            Intent(Intent.ACTION_VIEW, Uri.parse(url)),
+            Intent(Intent.ACTION_VIEW, Uri.parse(url)).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK),
             null
         )
     }
@@ -179,7 +157,6 @@ class ViewModel(application: Application) : AndroidViewModel(application) {
 
     fun listenToScrollAndLoadMoreNews(recyclerView: RecyclerView, category: String, callbackStartDownloading: () -> Unit, callbackFinishedDownloading: (Int) -> Unit){
         val whichCategory = when(category){
-
             Category.GENERAL.first -> 0
             Category.BUSINESS.first -> 1
             Category.ENTERTAINMENT.first -> 2
@@ -202,7 +179,6 @@ class ViewModel(application: Application) : AndroidViewModel(application) {
                     }){
                         isLoadingNewsNow[whichCategory] = false
                         numberOfNewsFetched[whichCategory] += 100
-
                         callbackFinishedDownloading(numberOfNewsFetched[whichCategory])
                     }
                 }

@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 
 import itamar.stern.news.adapters.NewsAdapter
 import itamar.stern.news.databinding.SportsFragmentBinding
+import itamar.stern.news.models.Category
 import itamar.stern.news.utils.dp
 import itamar.stern.news.view_model.ViewModel
 
@@ -36,7 +37,8 @@ class SportsFragment : Fragment() {
         })
 
         binding.recyclerViewSports.layoutManager = LinearLayoutManager(requireContext())
-        viewModel.allSportsNews.observe(viewLifecycleOwner){
+        viewModel.allLoadedNewsLists[Category.SPORTS.first]?.observe(viewLifecycleOwner){
+        //viewModel.allSportsNews.observe(viewLifecycleOwner){
             binding.recyclerViewSports.adapter = NewsAdapter(it){ news->
                 viewModel.openNewsDialog(requireContext(), news, binding.recyclerViewSports.height, binding.recyclerViewSports.width)
             }

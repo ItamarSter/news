@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import itamar.stern.news.adapters.NewsAdapter
 import itamar.stern.news.databinding.HealthFragmentBinding
+import itamar.stern.news.models.Category
 import itamar.stern.news.utils.dp
 import itamar.stern.news.view_model.ViewModel
 
@@ -36,7 +37,8 @@ class HealthFragment : Fragment() {
         })
 
         binding.recyclerViewHealth.layoutManager = LinearLayoutManager(requireContext())
-        viewModel.allHealthNews.observe(viewLifecycleOwner){
+        viewModel.allLoadedNewsLists[Category.HEALTH.first]?.observe(viewLifecycleOwner){
+        //viewModel.allHealthNews.observe(viewLifecycleOwner){
             binding.recyclerViewHealth.adapter = NewsAdapter(it){ news->
                 viewModel.openNewsDialog(requireContext(), news, binding.recyclerViewHealth.height, binding.recyclerViewHealth.width)
             }

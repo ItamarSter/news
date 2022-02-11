@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import itamar.stern.news.adapters.NewsAdapter
 import itamar.stern.news.databinding.GeneralFragmentBinding
+import itamar.stern.news.models.Category
 import itamar.stern.news.view_model.ViewModel
 import itamar.stern.news.utils.dp
 
@@ -34,7 +35,8 @@ class GeneralFragment : Fragment() {
         })
 
         binding.recyclerViewGeneral.layoutManager = LinearLayoutManager(requireContext())
-        viewModel.allGeneralNews.observe(viewLifecycleOwner){
+        viewModel.allLoadedNewsLists[Category.GENERAL.first]?.observe(viewLifecycleOwner){
+        //viewModel.allGeneralNews.observe(viewLifecycleOwner){
             binding.recyclerViewGeneral.adapter = NewsAdapter(it){ news->
                 viewModel.openNewsDialog(requireContext(), news, binding.recyclerViewGeneral.height, binding.recyclerViewGeneral.width)
             }
