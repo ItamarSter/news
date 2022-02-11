@@ -8,29 +8,29 @@ Save and see favorites require google sign in.<br/>
 
 ### Screenshots
 <pre>
-<img src="" width="200" />        <img src="" width="200" />        <img src="" width="200" />
+<img src="https://github.com/ItamarSter/news/tree/main/screenshots/screens1.jpeg" width="200" />        <img src="https://github.com/ItamarSter/news/tree/main/screenshots/screens2.jpeg" width="200" />        <img src="https://github.com/ItamarSter/news/tree/main/screenshots/screens3.jpeg" width="200" />
 <br/>
-<img src="" width="200" />        <img src="" width="200" />        <img src="" width="200" />
+<img src="https://github.com/ItamarSter/news/tree/main/screenshots/screens4.jpeg" width="200" />        <img src="https://github.com/ItamarSter/news/tree/main/screenshots/screens5.jpeg" width="200" />        <img src="https://github.com/ItamarSter/news/tree/main/screenshots/screens6.jpeg" width="200" />
 </pre>
 
 ## Technologies and libraries
 Room Database
-- Favorites news items is saved in room.
+- Favorites news items is saved in room.<br/>
 Firebase realtime database
-- Save errors details.
+- Save errors details.<br/>
 Google authentication
-- Saving and viewing favorites requires google sign in.
+- Saving and viewing favorites requires google sign in.<br/>
 LiveData
 - Displaying the favorites from the room with LiveData.
-- Additional uses.
+- Additional uses.<br/>
 Retrofit
-- Using retrofit for download the news from the api.
+- Using retrofit for download the news from the api.<br/>
 RecyclerView
-- Displaying the news in recyclerViews with adapters.
+- Displaying the news in recyclerViews with adapters.<br/>
 Glide
-- Download images with Glide.
+- Download images with Glide.<br/>
 SharedPreferences
-- Storage and management of flags.
+- Storage and management of flags.<br/>
 ##### Licenses:
 - Logout icon: By MGalloway (WMF) - Own work, CC BY-SA 4.0, https://commons.wikimedia.org/w/index.php?curid=38174046
 
