@@ -9,6 +9,7 @@
     <color name="blue">#FF0000ff</color>
     <color name="white">#FFFFFFFF</color>
     <color name="gray">#dedede</color>
+    <color name="lightgray">#f0f0f0</color>
     <color name="darkgray">#666666</color>
     <color name="tab_general">#fA9499</color>
     <color name="tab_business">#f8e1e1</color>

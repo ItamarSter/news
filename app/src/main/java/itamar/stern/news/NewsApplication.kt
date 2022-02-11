@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
 import android.graphics.Bitmap
+import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -39,7 +40,6 @@ class NewsApplication: Application() {
         }
 
         val bitmapImages = mutableMapOf<String, Bitmap>()
-
         var whereToGoFromWelcome = -1
 
         var LANGUAGE = "en"

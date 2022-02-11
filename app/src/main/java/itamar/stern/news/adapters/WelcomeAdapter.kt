@@ -59,6 +59,7 @@ class WelcomeAdapter(val news: List<News>, val callbackClickOnCategory: (String)
             }
 
             animationArrow.setOnClickListener {
+                animationArrow.setBackgroundColor(root.context.resources.getColor(R.color.lightgray, null))
                 callbackClickOnCategory(news[position].category)
             }
         }

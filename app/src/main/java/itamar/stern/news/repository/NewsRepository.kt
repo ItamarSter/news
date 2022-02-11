@@ -1,10 +1,14 @@
 package itamar.stern.news.repository
 
+import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
+import itamar.stern.news.NewsApplication
 import itamar.stern.news.api.NewsApi
 import itamar.stern.news.models.Category
 import itamar.stern.news.models.News
+import itamar.stern.news.ui.welcome_screen.WelcomeActivity
 import itamar.stern.news.utils.sendErrorsToFirebase
+import retrofit2.HttpException
 
 class NewsRepository(
     private val newsApi: NewsApi
@@ -46,6 +50,9 @@ class NewsRepository(
                 }
             }
         } catch (e: Exception){
+            if(e is HttpException){
+                WelcomeActivity.noMoreRequests.postValue(true)
+            }
             sendErrorsToFirebase(e)
         }
     }
@@ -67,6 +74,9 @@ class NewsRepository(
             news = newsApi.fetchMovies(category = Category.TECHNOLOGY.first, limit = "1")
             welcomeNewsList.value?.addAll(news.data)
         } catch (e: Exception){
+            if(e is HttpException){
+                WelcomeActivity.noMoreRequests.postValue(true)
+            }
             sendErrorsToFirebase(e)
         }
 

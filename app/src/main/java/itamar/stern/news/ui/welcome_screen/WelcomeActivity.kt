@@ -14,6 +14,7 @@ import itamar.stern.news.NewsApplication
 import itamar.stern.news.ui.main.MainActivity
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.lifecycle.MutableLiveData
 import itamar.stern.news.utils.noInternet
 
 
@@ -25,11 +26,22 @@ class WelcomeActivity : AppCompatActivity() {
     //Flag to prevent double refreshing news when pressed back to this page (spinner selection and onResume, both cause to refresh)
     private var isRefreshingNow = false
 
+    companion object {
+        //Flag to tell the user that the api 500 request are over.
+        val noMoreRequests = MutableLiveData(false)
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProvider(this)[WelcomeViewModel::class.java]
         binding = ActivityWelcomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        
+        noMoreRequests.observe(this){
+            if(it){
+                Toast.makeText(this, "The free api used here is limited to 500 requests. You have to talk to the app developer to fix this.", Toast.LENGTH_LONG).show()
+            }
+        }
+        
     }
     override fun onResume() {
         super.onResume()
@@ -75,12 +87,19 @@ class WelcomeActivity : AppCompatActivity() {
 
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
+
+        binding.buttonRefresh.setOnClickListener {
+            refreshNews()
+        }
     }
 
     private fun refreshNews() {
         viewModel.welcomeNews.postValue(mutableListOf())
         if(noInternet(this)){
+            binding.buttonRefresh.visibility = View.VISIBLE
             return
+        } else {
+            binding.buttonRefresh.visibility = View.INVISIBLE
         }
         viewModel.loadNews({
             isRefreshingNow = true
