@@ -4,7 +4,6 @@ import android.app.Application
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
-import android.net.ConnectivityManager
 import android.net.Uri
 import android.os.Build
 import android.text.Html
@@ -12,8 +11,6 @@ import android.view.Window
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
@@ -24,7 +21,6 @@ import itamar.stern.news.R
 import itamar.stern.news.models.Category
 import itamar.stern.news.models.News
 import itamar.stern.news.NewsApplication
-import itamar.stern.news.network.NetworkStatusChecker
 import itamar.stern.news.ui.main.MainActivity
 import itamar.stern.news.utils.noInternet
 import kotlinx.coroutines.Dispatchers
@@ -156,16 +152,8 @@ class ViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun listenToScrollAndLoadMoreNews(recyclerView: RecyclerView, category: String, callbackStartDownloading: () -> Unit, callbackFinishedDownloading: (Int) -> Unit){
-        val whichCategory = when(category){
-            Category.GENERAL.first -> 0
-            Category.BUSINESS.first -> 1
-            Category.ENTERTAINMENT.first -> 2
-            Category.HEALTH.first -> 3
-            Category.SCIENCE.first -> 4
-            Category.SPORTS.first -> 5
-            Category.TECHNOLOGY.first -> 6
-            else -> {-1}
-        }
+        val whichCategory = Category.CATEGORIES[category] ?: -1
+
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 if (!recyclerView.canScrollVertically(1) && !isLoadingNewsNow[whichCategory]) {

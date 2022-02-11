@@ -1,13 +1,11 @@
 package itamar.stern.news.utils
 
-import android.app.Application
 import android.content.Context
 import android.content.res.Resources
 import android.net.ConnectivityManager
 import android.os.Build
 import android.util.TypedValue
 import android.widget.Toast
-import androidx.annotation.RequiresApi
 import itamar.stern.news.NewsApplication
 import itamar.stern.news.models.MyError
 import itamar.stern.news.network.NetworkStatusChecker
@@ -15,7 +13,7 @@ import java.lang.RuntimeException
 import java.time.LocalDateTime
 import java.time.OffsetDateTime
 import java.time.ZoneId
-import java.time.ZonedDateTime
+
 
 fun Number.dp(): Float {
     return TypedValue.applyDimension(

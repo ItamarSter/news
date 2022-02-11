@@ -71,12 +71,5 @@ class MainActivity : AppCompatActivity() {
                 viewPager.currentItem = Category.FAVORITES.second
             }
         }
-
-
-
-
     }
-
-
-
 }

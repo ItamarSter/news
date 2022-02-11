@@ -65,10 +65,8 @@ class WelcomeActivity : AppCompatActivity() {
             }
         }
 
-        //Set the spinner:
+        //Set the languages spinner:
         val dropdown = binding.spinner
-        //create a list of items for the spinner.
-
         val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, languages)
         dropdown.adapter = adapter
         binding.spinner.setSelection(languages.indexOf(NewsApplication.LANGUAGE), false)
@@ -77,9 +75,6 @@ class WelcomeActivity : AppCompatActivity() {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 NewsApplication.LANGUAGE = languages[position].substring(0, 2)
                 NewsApplication.prefs.edit().putString("language", NewsApplication.LANGUAGE).apply()
-                //Toast.makeText(this@WelcomeActivity, "Reopen the app to refresh the settings", Toast.LENGTH_SHORT).show()
-                //stop listening until we get back to this page, to prevent send the toast we we set the language in the spinner:
-                //dropdown.onItemSelectedListener = null
                 if(!isRefreshingNow){
                     refreshNews()
                 }

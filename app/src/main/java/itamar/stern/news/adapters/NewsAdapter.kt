@@ -1,6 +1,8 @@
 package itamar.stern.news.adapters
 
 import android.graphics.Bitmap
+import android.os.Build
+import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,7 +33,9 @@ class NewsAdapter(val news: List<News>, val callbackClickOnNews: (news:News)->Un
 
     override fun onBindViewHolder(holder: VH, position: Int) {
         with(holder.binding) {
-            textViewTitle.text = news[position].title
+            textViewTitle.text = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                Html.fromHtml(news[position].title, 0)
+            } else Html.fromHtml(news[position].title)
             textViewSource.text = news[position].source
             textViewDateTime.text = createDateString(news[position].published_at)
             if (news[position].image != null) {

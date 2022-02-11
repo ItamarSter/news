@@ -36,7 +36,7 @@
         android:backgroundTint="@color/gray"
         android:text="@string/sign_in_with_google"
         android:visibility="invisible"
-        app:icon="@drawable/google_icon3"
+        app:icon="@drawable/google_icon"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/recyclerViewFavorites"
         app:layout_constraintStart_toStartOf="parent"

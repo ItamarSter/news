@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
-
 import itamar.stern.news.adapters.NewsAdapter
 import itamar.stern.news.databinding.ScienceFragmentBinding
 import itamar.stern.news.models.Category
@@ -32,19 +31,18 @@ class ScienceFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         //First loading:
-        viewModel.loadNews("0", "science", {}, {
+        viewModel.loadNews("0", Category.SCIENCE.first, {}, {
             binding.progressBarScience2.visibility = View.INVISIBLE
         })
 
         binding.recyclerViewScience.layoutManager = LinearLayoutManager(requireContext())
         viewModel.allLoadedNewsLists[Category.SCIENCE.first]?.observe(viewLifecycleOwner){
-        //viewModel.allScienceNews.observe(viewLifecycleOwner){
             binding.recyclerViewScience.adapter = NewsAdapter(it){ news->
                 viewModel.openNewsDialog(requireContext(), news, binding.recyclerViewScience.height, binding.recyclerViewScience.width)
             }
         }
 
-        viewModel.listenToScrollAndLoadMoreNews(binding.recyclerViewScience, "science",{
+        viewModel.listenToScrollAndLoadMoreNews(binding.recyclerViewScience, Category.SCIENCE.first,{
             //Show progressBar when downloading old news:
             binding.progressBarScience.visibility = View.VISIBLE
         }){ position ->

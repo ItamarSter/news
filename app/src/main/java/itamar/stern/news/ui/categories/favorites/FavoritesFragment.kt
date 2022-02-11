@@ -11,14 +11,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import itamar.stern.news.adapters.NewsAdapter
 import itamar.stern.news.databinding.FavoritesFragmentBinding
 import itamar.stern.news.view_model.ViewModel
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import com.google.android.gms.tasks.Task
 import itamar.stern.news.NewsApplication
 import itamar.stern.news.R
 import itamar.stern.news.ui.main.MainActivity

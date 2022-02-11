@@ -1,8 +1,7 @@
 package itamar.stern.news.repository
 
-import android.widget.Toast
+
 import androidx.lifecycle.MutableLiveData
-import itamar.stern.news.NewsApplication
 import itamar.stern.news.api.NewsApi
 import itamar.stern.news.models.Category
 import itamar.stern.news.models.News

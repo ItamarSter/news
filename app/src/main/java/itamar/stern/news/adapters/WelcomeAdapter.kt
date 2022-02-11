@@ -1,18 +1,12 @@
 package itamar.stern.news.adapters
 
-import android.annotation.SuppressLint
-import android.graphics.Color
-import android.graphics.ColorFilter
-import android.graphics.PorterDuff
+
+import android.os.Build
+import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.airbnb.lottie.LottieProperty
-import com.airbnb.lottie.SimpleColorFilter
-import com.airbnb.lottie.model.KeyPath
-import com.airbnb.lottie.value.LottieValueCallback
 import com.bumptech.glide.Glide
 import itamar.stern.news.R
 import itamar.stern.news.databinding.WelcomeNewsItemBinding
@@ -36,7 +30,9 @@ class WelcomeAdapter(val news: List<News>, val callbackClickOnCategory: (String)
 
     override fun onBindViewHolder(holder: VH, position: Int) {
         with(holder.binding) {
-            textViewTitle.text = news[position].title
+            textViewTitle.text = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                Html.fromHtml(news[position].title, 0)
+            } else Html.fromHtml(news[position].title)
             textViewSource.text = news[position].source
             textViewCategory.text = news[position].category.uppercase()
             if (position < 8) textViewCategory.setTextColor(

@@ -8,6 +8,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Query
+
 const val BASE_URL = "http://api.mediastack.com/"
 const val API_KEY = BuildConfig.NEWS_API_KEY
 

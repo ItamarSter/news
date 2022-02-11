@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
-
 import itamar.stern.news.adapters.NewsAdapter
 import itamar.stern.news.databinding.SportsFragmentBinding
 import itamar.stern.news.models.Category
@@ -32,19 +31,18 @@ class SportsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         //First loading:
-        viewModel.loadNews("0", "sports", {}, {
+        viewModel.loadNews("0", Category.SPORTS.first, {}, {
             binding.progressBarSports2.visibility = View.INVISIBLE
         })
 
         binding.recyclerViewSports.layoutManager = LinearLayoutManager(requireContext())
         viewModel.allLoadedNewsLists[Category.SPORTS.first]?.observe(viewLifecycleOwner){
-        //viewModel.allSportsNews.observe(viewLifecycleOwner){
             binding.recyclerViewSports.adapter = NewsAdapter(it){ news->
                 viewModel.openNewsDialog(requireContext(), news, binding.recyclerViewSports.height, binding.recyclerViewSports.width)
             }
         }
 
-        viewModel.listenToScrollAndLoadMoreNews(binding.recyclerViewSports, "sports",{
+        viewModel.listenToScrollAndLoadMoreNews(binding.recyclerViewSports, Category.SPORTS.first,{
             //Show progressBar when downloading old news:
             binding.progressBarSports.visibility = View.VISIBLE
         }){ position ->

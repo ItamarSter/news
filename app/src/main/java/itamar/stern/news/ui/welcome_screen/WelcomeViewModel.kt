@@ -1,4 +1,5 @@
 package itamar.stern.news.ui.welcome_screen;
+
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import itamar.stern.news.NewsApplication

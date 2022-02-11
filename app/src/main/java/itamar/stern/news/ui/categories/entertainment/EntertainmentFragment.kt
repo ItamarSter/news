@@ -17,8 +17,6 @@ class EntertainmentFragment : Fragment() {
 
     private lateinit var binding: EntertainmentFragmentBinding
     private lateinit var viewModel: ViewModel
-    var numberOfNewsFetched = 100
-    var isLoadingNewsNow = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,19 +31,18 @@ class EntertainmentFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         //First loading:
-        viewModel.loadNews("0", "entertainment", {}, {
+        viewModel.loadNews("0", Category.ENTERTAINMENT.first, {}, {
             binding.progressBarEntertainment2.visibility = View.INVISIBLE
         })
 
         binding.recyclerViewEntertainment.layoutManager = LinearLayoutManager(requireContext())
         viewModel.allLoadedNewsLists[Category.ENTERTAINMENT.first]?.observe(viewLifecycleOwner){
-        //viewModel.allEntertainmentNews.observe(viewLifecycleOwner){
             binding.recyclerViewEntertainment.adapter = NewsAdapter(it){ news->
                 viewModel.openNewsDialog(requireContext(), news, binding.recyclerViewEntertainment.height, binding.recyclerViewEntertainment.width)
             }
         }
 
-        viewModel.listenToScrollAndLoadMoreNews(binding.recyclerViewEntertainment, "entertainment",{
+        viewModel.listenToScrollAndLoadMoreNews(binding.recyclerViewEntertainment, Category.ENTERTAINMENT.first,{
             //Show progressBar when downloading old news:
             binding.progressBarEntertainment.visibility = View.VISIBLE
         }){ position ->

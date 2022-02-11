@@ -30,19 +30,18 @@ class BusinessFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         //First loading:
-        viewModel.loadNews("0", "business", {}, {
+        viewModel.loadNews("0", Category.BUSINESS.first, {}, {
             binding.progressBarBusiness.visibility = View.INVISIBLE
         })
 
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         viewModel.allLoadedNewsLists[Category.BUSINESS.first]?.observe(viewLifecycleOwner){
-        //viewModel.allBusinessNews.observe(viewLifecycleOwner){
             binding.recyclerView.adapter = NewsAdapter(it){ news->
                 viewModel.openNewsDialog(requireContext(), news, binding.recyclerView.height, binding.recyclerView.width)
             }
         }
 
-        viewModel.listenToScrollAndLoadMoreNews(binding.recyclerView, "business",{
+        viewModel.listenToScrollAndLoadMoreNews(binding.recyclerView, Category.BUSINESS.first,{
             //Show progressBar when downloading old news:
             binding.progressBarBusinessMore.visibility = View.VISIBLE
         }){ position->

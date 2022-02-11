@@ -30,19 +30,18 @@ class GeneralFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         //First loading:
-        viewModel.loadNews("0", "general", {}, {
+        viewModel.loadNews("0", Category.GENERAL.first, {}, {
             binding.progressBarGeneral2.visibility = View.INVISIBLE
         })
 
         binding.recyclerViewGeneral.layoutManager = LinearLayoutManager(requireContext())
         viewModel.allLoadedNewsLists[Category.GENERAL.first]?.observe(viewLifecycleOwner){
-        //viewModel.allGeneralNews.observe(viewLifecycleOwner){
             binding.recyclerViewGeneral.adapter = NewsAdapter(it){ news->
                 viewModel.openNewsDialog(requireContext(), news, binding.recyclerViewGeneral.height, binding.recyclerViewGeneral.width)
             }
         }
 
-        viewModel.listenToScrollAndLoadMoreNews(binding.recyclerViewGeneral, "general",{
+        viewModel.listenToScrollAndLoadMoreNews(binding.recyclerViewGeneral, Category.GENERAL.first,{
             //Show progressBar when downloading old news:
             binding.progressBarGeneral.visibility = View.VISIBLE
         }){ position ->

@@ -32,19 +32,18 @@ class HealthFragment : Fragment() {
 
 
         //First loading:
-        viewModel.loadNews("0", "health", {}, {
+        viewModel.loadNews("0", Category.HEALTH.first, {}, {
             binding.progressBarHealth2.visibility = View.INVISIBLE
         })
 
         binding.recyclerViewHealth.layoutManager = LinearLayoutManager(requireContext())
         viewModel.allLoadedNewsLists[Category.HEALTH.first]?.observe(viewLifecycleOwner){
-        //viewModel.allHealthNews.observe(viewLifecycleOwner){
             binding.recyclerViewHealth.adapter = NewsAdapter(it){ news->
                 viewModel.openNewsDialog(requireContext(), news, binding.recyclerViewHealth.height, binding.recyclerViewHealth.width)
             }
         }
 
-        viewModel.listenToScrollAndLoadMoreNews(binding.recyclerViewHealth, "health",{
+        viewModel.listenToScrollAndLoadMoreNews(binding.recyclerViewHealth, Category.HEALTH.first,{
             //Show progressBar when downloading old news:
             binding.progressBarHealth.visibility = View.VISIBLE
         }){ position ->
