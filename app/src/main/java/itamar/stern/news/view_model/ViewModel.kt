@@ -5,10 +5,13 @@ import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
+import android.text.Html
 import android.view.Window
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
@@ -96,6 +99,7 @@ class ViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
+
     fun openNewsDialog(
         context: Context,
         news: News,
@@ -108,7 +112,9 @@ class ViewModel(application: Application) : AndroidViewModel(application) {
         dialog.setContentView(R.layout.extended_new_item)
         dialog.window?.setLayout(recyclerViewWidth / 7 * 6, recyclerViewHeight / 4 * 3)
         dialog.findViewById<TextView>(R.id.textViewTitle2).text = news.title
-        dialog.findViewById<TextView>(R.id.textViewDescription).text = news.description
+        dialog.findViewById<TextView>(R.id.textViewDescription).text = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            Html.fromHtml(news.description, 0)
+        } else Html.fromHtml(news.description)
         dialog.findViewById<TextView>(R.id.textViewSource2).text = news.source
         dialog.findViewById<Button>(R.id.buttonBrowse).setOnClickListener {
             browseNews(news.url)

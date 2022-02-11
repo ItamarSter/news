@@ -24,26 +24,7 @@ class MainActivity : AppCompatActivity() {
         //(observe in onCreate)
         val goToLogin = MutableLiveData(false)
     }
-    val tabsColors = arrayOf(
-        R.drawable.layer_bg_selected_tab_general,
-        R.drawable.layer_bg_selected_tab_business,
-        R.drawable.layer_bg_selected_tab_entertainment,
-        R.drawable.layer_bg_selected_tab_health,
-        R.drawable.layer_bg_selected_tab_science,
-        R.drawable.layer_bg_selected_tab_sports,
-        R.drawable.layer_bg_selected_tab_technology,
-        R.drawable.layer_bg_selected_tab_favorites
-    )
-    val tabsBacks = arrayOf(
-        R.color.tab_general,
-        R.color.tab_business,
-        R.color.tab_entertainment,
-        R.color.tab_health,
-        R.color.tab_science,
-        R.color.tab_sports,
-        R.color.tab_technology,
-        R.color.tab_favorites
-    )
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -66,7 +47,7 @@ class MainActivity : AppCompatActivity() {
         )
         TabLayoutMediator(tabs, viewPager) { tab, position ->
             tab.text = tabsNames[position]
-            tab.view.setBackgroundResource(tabsBacks[position])
+            tab.view.setBackgroundResource(Category.tabsBacks[position])
         }.attach()
 
         //Show the page which the user clicked on it in the welcome screen:
@@ -74,11 +55,11 @@ class MainActivity : AppCompatActivity() {
 
         tabs.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener{
             override fun onTabSelected(tab: TabLayout.Tab) {
-                tab.view.setBackgroundResource(tabsColors[tab.position])
+                tab.view.setBackgroundResource(Category.tabsColors[tab.position])
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab) {
-                tab.view.setBackgroundResource(tabsBacks[tab.position])
+                tab.view.setBackgroundResource(Category.tabsBacks[tab.position])
             }
 
             override fun onTabReselected(tab: TabLayout.Tab?) {}
@@ -86,7 +67,7 @@ class MainActivity : AppCompatActivity() {
         //When logged-out user trying to mark favorites - send him to login:
         goToLogin.observe(this){
             if(it){
-                tabs.getTabAt(7)?.view?.setBackgroundResource(tabsColors[7])
+                tabs.getTabAt(7)?.view?.setBackgroundResource(Category.tabsColors[7])
                 viewPager.currentItem = Category.FAVORITES.second
             }
         }

@@ -1,5 +1,7 @@
 package itamar.stern.news.models
 
+import itamar.stern.news.R
+
 class Category {
     companion object {
         val CATEGORIES = hashMapOf(
@@ -20,5 +22,25 @@ class Category {
         val SPORTS = Pair("sports", 5)
         val TECHNOLOGY = Pair("technology", 6)
         val FAVORITES = Pair("favorites", 7)
+        val tabsColors = arrayOf(
+            R.drawable.layer_bg_selected_tab_general,
+            R.drawable.layer_bg_selected_tab_business,
+            R.drawable.layer_bg_selected_tab_entertainment,
+            R.drawable.layer_bg_selected_tab_health,
+            R.drawable.layer_bg_selected_tab_science,
+            R.drawable.layer_bg_selected_tab_sports,
+            R.drawable.layer_bg_selected_tab_technology,
+            R.drawable.layer_bg_selected_tab_favorites
+        )
+        val tabsBacks = arrayOf(
+            R.color.tab_general,
+            R.color.tab_business,
+            R.color.tab_entertainment,
+            R.color.tab_health,
+            R.color.tab_science,
+            R.color.tab_sports,
+            R.color.tab_technology,
+            R.color.tab_favorites
+        )
     }
 }
